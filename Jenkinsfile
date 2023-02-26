@@ -1,5 +1,8 @@
 pipeline {
     agent any
+    environment {
+        DOCKERHUB_CREDENTIALS = credentials('animepwd')
+    }
 
     stages {
         stage('Checkout') {
