@@ -2,6 +2,16 @@ pipeline {
     agent any
 
     stages {
+        stage('Checkout') {
+            steps {
+                git branch: 'feature', url: 'https://github.com/JingtaoQ/ML_Anime.git'
+            }
+        }
+        stage('Build and Unit Test') {
+            steps {
+                sh 'mvn clean install'
+            }
+        }
         stage('Building') {
             steps {
               sh 'pip3 install -r requirements.txt'
