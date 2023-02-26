@@ -1,0 +1,4 @@
+flair
+flask
+Flask-Cors
+gunicorn

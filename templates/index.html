@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Please Input the Following Information</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <h1>Please Input the Following Information</h1>
+    <form id="anime-form" action="/predict" method="post">
+        <label for="title">Anime Title:</label>
+        <input type="text" id="title" name="title" required>
+        &emsp;&emsp;
+        <label for="genre">Anime Genre(s):</label>
+        <input type="text" id="genre" name="genre" >
+        &emsp;&emsp;
+        <label for="description">Anime Description:</label>
+        <textarea id="description" name="description" ></textarea><br>
+
+        <label for="type">Anime Type:</label>
+        <select id="type" name="type">
+            <option value="Movie">Movie</option>
+            <option value="Music">Music</option>
+            <option value="ONA">ONA</option>
+            <option value="OVA">OVA</option>
+            <option value="Special">Special</option>
+            <option value="TV">TV</option>
+            <option value="Unknown">Unknown</option>
+        </select>
+        &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+        <label for="production">Anime Producer:</label>
+        <input type="text" id="producer" name="producer" >
+        &emsp;&emsp;&emsp;&emsp;
+        <label for="studio">Anime Studio:</label>
+        <input type="text" id="studio" name="studio" ><br>
+        <br>
+        &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+        &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+        <input type="submit" value="Submit">
+    </form>
+
+    {% if rating is defined %}
+    <h2>Rating: {{ rating }}</h2>
+    <h2>Preferences: {{ preferences }}</h2>
+    {% endif %}
+    
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>
