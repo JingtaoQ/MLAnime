@@ -15,6 +15,12 @@ pipeline {
             }
         }
         
+        stage('Build and Unit Test') {
+            steps {
+                sh 'mvn clean install'
+            }
+        }
+        
 
     }
   triggers{
