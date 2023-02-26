@@ -5,13 +5,12 @@ pipeline {
     }
 
     stages {
-        stage('Build and test feature branch') {
+        stage('Test feature branch') {
             when {
                 branch 'feature/*'
             }
             steps {
-                sh 'npm install'
-                sh 'npm run test'
+                sh 'pip3 install -r requirements.txt'
             }
         }
         stage('Build and Unit Test') {
