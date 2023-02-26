@@ -5,9 +5,13 @@ pipeline {
     }
 
     stages {
-        stage('Checkout') {
+        stage('Build and test feature branch') {
+            when {
+                branch 'feature/*'
+            }
             steps {
-                git branch: 'feature', url: 'https://github.com/JingtaoQ/ML_Anime.git'
+                sh 'npm install'
+                sh 'npm run test'
             }
         }
         stage('Build and Unit Test') {
