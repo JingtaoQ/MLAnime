@@ -6,8 +6,11 @@ import numpy as np
 app = Flask(__name__)
 
 # 加载训练好的模型
-with open('Project/word2vec.pkl', 'rb') as f:
+with open('word2vec.pkl', 'rb') as f:
     model = pickle.load(f)
+
+with open('outputmodel.pkl', 'rb') as f:
+    model_op = pickle.load(f)
 
 @app.route('/')
 def Home():
@@ -34,12 +37,13 @@ def predict():
     final_features = np.mean(features_vector, axis=0).reshape(1, -1)
 
     # 预测并返回结果
-    predictions = model.wv.similar_by_vector(final_features.flatten(), topn=1)
-    rating = predictions[0][1]
-    preferences = 'yes' if rating >= 0.6 else 'no'
+    predictions = model_op.predict(final_features)
+    print(predictions)
+    rating = predictions[0][0]
+    preferences = 'yes' if rating >= 6 else 'no'
 
     # return jsonify({'rating': rating, 'preferences': preferences})
-    return render_template('index.html', rating=rating, preferences=preferences)
+    return render_template('index.html', rating=round(rating,2), preferences=preferences)
 
 if __name__ == '__main__':
     app.run(debug=True)
