@@ -5,6 +5,7 @@ pipeline {
     }
 
     stages {
+        
         stage('Test feature branch') {
             when {
                 branch 'feature/*'
@@ -13,6 +14,7 @@ pipeline {
                 sh 'pip3 install -r requirements.txt'
             }
         }
+        
         stage('Build and Unit Test') {
             steps {
                 sh 'mvn clean install'
