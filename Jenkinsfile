@@ -1,29 +1,32 @@
 pipeline {
     agent any
-    environment {
-        DOCKERHUB_CREDENTIALS = credentials('animepwd')
-    }
-
     stages {
-        
-        stage('Test feature branch') {
-            when {
-                branch 'feature/*'
-            }
+        stage('Checkout') {
             steps {
-                sh 'pip3 install -r requirements.txt'
+                echo '开始拉取代码...'
+                cleanWs()
+                git branch: '$BRANCH_NAME', credentialsId: '1b458187-1203-4ef5-8f9a-97fe7576e4b1', url: 'http://gitea:3000/root/my-multibranch-pipeline.git'
             }
         }
-        
-        stage('Build and Unit Test') {
+        stage('Build') {
             steps {
-                sh 'mvn clean install'
+                echo '开始构建代码...'
             }
         }
-        
-
+        stage('Archive') {
+            steps {
+                echo '开始打包文件...'
+                archiveArtifacts '**/*'
+            }
+        }
+        stage('Deploy') {
+            steps {
+                echo '开始部署文件...'
+                sshPublisher(publishers: [sshPublisherDesc(configName: 'nginx', transfers: [sshTransfer(cleanRemote: false, excludes: '', execCommand: 'nginx -s reload', execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: '$BRANCH_NAME', remoteDirectorySDF: false, removePrefix: '', sourceFiles: '**/*')], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)])
+            }
+        }
     }
-  triggers{
-       githubPush()
-  }
+    triggers {
+        pollSCM 'H/2 * * * *'
+    }
 }
