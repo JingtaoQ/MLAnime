@@ -22,26 +22,31 @@ pipeline {
               sh 'docker run -d -p 8003:8080 jingtaoqu/anime:frontend'
             }
         }
-	stage('Push to main') {
-  	    steps {
-    		script {
-      		sh 'git push origin main'
-    			}
- 		 }
-	}
+	stage('Merge feature branch to main') {
+            steps {
+                script {
+                    def gitBranch = "${env.BRANCH_NAME}"
+                    if (gitBranch != "main") {
+                        // Fetch the latest changes from the main branch
+                        sh 'git fetch origin main'
 
-        stage('Login') {
+                        // Checkout the main branch
+                        sh 'git checkout main'
 
-		steps {
-		    sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
-			}
-		}
-        
-        stage('Push image to Hub'){
-            steps{
-		    sh 'docker push jingtaoqu/anime:frontend'
-	    }
+                        // Merge the feature branch into the main branch
+                        sh "git merge origin/${gitBranch}"
+
+                        // Push the changes to the remote main branch
+                        sh 'git push origin main'
+
+                        // Checkout the feature branch again
+                        sh "git checkout ${gitBranch}"
+                    }
+                }
+            }
         }
+
+
     }
     
   post{
