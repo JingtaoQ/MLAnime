@@ -2,3 +2,6 @@ flair
 flask
 Flask-Cors
 gunicorn
+gensim
+pickle
+numpy
