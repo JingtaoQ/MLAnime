@@ -50,11 +50,7 @@ pipeline {
 			}
 		}
         
-        stage('Push image to Hub'){
-            steps{
-		    sh 'docker push jingtaoqu/anime:model'
-	    }
-        }
+        
     }
     
   post{
