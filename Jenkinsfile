@@ -22,7 +22,6 @@ pipeline {
               sh 'docker run -d -p 8003:8080 jingtaoqu/anime:frontend'
             }
         }
-        stages {
             stage('Merge feature to main') {
                 steps {
                     sh 'git checkout main'
@@ -30,7 +29,7 @@ pipeline {
                     sh 'git push origin main'
                 }
             }
-        }
+        
 
 
 
