@@ -1,36 +1,44 @@
 pipeline {
     agent any
+    environment {
+        DOCKERHUB_CREDENTIALS = credentials('dockerhubpwd')
+    }
+
 
     stages {
-        stage('Checkout') {
-            steps {
-                checkout scm
-            }
-        }
         stage('Building') {
             steps {
-                sh 'pip3 install -r requirements.txt'
+              sh 'pip3 install -r requirements.txt'
             }
         }
 
-        stage('Merge to main') {
-            when {
-                branch 'feature/*'
-            }
+       stage('Deploying'){
             steps {
-                sh 'git fetch --all --prune --tags'
-                sh "git checkout main"
-                sh "git merge origin/${env.BRANCH_NAME}"
-                sh "git push origin main"
+              sh 'docker build -t jingtaoqu/anime:frontend .'
             }
         }
-    }
-
-    post {
-        always {
-            sh 'git checkout ${env.BRANCH_NAME}'
-            sh 'git pull origin ${env.BRANCH_NAME}'
-            sh 'git fetch --tags'
+        stage('Running'){
+            steps {
+              sh 'docker run -d -p 8003:8080 jingtaoqu/anime:frontend'
+            }
         }
+        stages {
+            stage('Merge feature to main') {
+                steps {
+                    sh 'git checkout main'
+                    sh 'git merge feature'
+                    sh 'git push origin main'
+                }
+            }
+        }
+
+
+
     }
+    
+  post{
+      always{
+         sh 'docker logout'
+      }
+  }
 }
