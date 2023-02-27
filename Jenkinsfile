@@ -1,58 +1,36 @@
 pipeline {
     agent any
-    environment {
-        DOCKERHUB_CREDENTIALS = credentials('dockerhubpwd')
-    }
-
 
     stages {
-        stage('Building') {
+        stage('Checkout') {
             steps {
-              sh 'pip3 install -r requirements.txt'
+                checkout scm
             }
         }
 
-       stage('Deploying'){
+        stage('Build') {
             steps {
-              sh 'docker build -t jingtaoqu/anime:frontend .'
+                sh 'mvn clean install'
             }
         }
-        stage('Running'){
-            steps {
-              sh 'docker run -d -p 8003:8080 jingtaoqu/anime:frontend'
-            }
-        }
-stage('Merge feature branch to main') {
-    steps {
-        script {
-            def gitBranch = "${env.BRANCH_NAME}"
-            if (gitBranch != "main") {
-                // Fetch the latest changes from the main branch
-                sh 'git fetch origin main'
 
-                // Checkout the main branch
+        stage('Merge to main') {
+            when {
+                branch 'feature/*'
+            }
+            steps {
                 sh 'git checkout main'
-
-                // Merge the feature branch into the main branch
-                sh "git merge origin/${gitBranch}"
-
-                // Push the changes to the remote main branch
+                sh 'git merge origin/${env.BRANCH_NAME}'
                 sh 'git push origin main'
-
-                // Checkout the feature branch again
-                sh "git checkout ${gitBranch}"
             }
         }
     }
-}
 
-
-
+    post {
+        always {
+            sh 'git checkout ${env.BRANCH_NAME}'
+            sh 'git pull origin ${env.BRANCH_NAME}'
+            sh 'git fetch --tags'
+        }
     }
-    
-  post{
-      always{
-         sh 'docker logout'
-      }
-  }
 }
