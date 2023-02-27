@@ -1,24 +1,26 @@
 import unittest
 from app import app
 
-class AppTest(unittest.TestCase):
-
+class TestApp(unittest.TestCase):
     def setUp(self):
-        app.testing = True
         self.app = app.test_client()
 
-    def tearDown(self):
-        pass
-
     def test_home_page(self):
-        result = self.app.get('/')
-        self.assertEqual(result.status_code, 200)
+        response = self.app.get('/')
+        self.assertEqual(response.status_code, 200)
 
-    def test_predict_page(self):
-        data = {'feature1': 'anime', 'feature2': 'action'}
-        result = self.app.post('/predict', data=data)
-        self.assertEqual(result.status_code, 200)
-        self.assertTrue(b'yes' in result.data or b'no' in result.data)
+    def test_predict(self):
+        data = {
+            'title': 'Spirited Away',
+            'genre': 'Adventure, Drama, Fantasy',
+            'description': 'On the way to their new home, 10-year-old Chihiro Ogino\'s family stumbles upon a deserted theme park. Amidst the rides and food stalls is a mysterious bathhouse which turns out to be a home to gods and monsters.',
+            'type': 'Movie',
+            'producer': 'Studio Ghibli',
+            'studio': 'Studio Ghibli'
+        }
+        response = self.app.post('/predict', data=data)
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(b'no', response.data)
 
 if __name__ == '__main__':
     unittest.main()
