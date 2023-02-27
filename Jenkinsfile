@@ -15,7 +15,6 @@ pipeline {
 
        stage('Deploying'){
             steps {
-              sh docker.image('my-docker-image').run('-v /path/to/model:/model')
               sh 'docker build -t jingtaoqu/anime:model .'
             }
         }
