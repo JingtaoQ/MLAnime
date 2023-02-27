@@ -31,7 +31,7 @@ pipeline {
         
         stage('Push image to Hub'){
             steps{
-		    sh 'docker push anime/jenkins:0.1'
+		    sh 'docker push jingtaoqu/anime'
 	    }
         }
     }
