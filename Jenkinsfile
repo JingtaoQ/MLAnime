@@ -21,7 +21,12 @@ pipeline {
             steps {
               sh 'docker run -d -p 8003:8080 jingtaoqu/anime:frontend'
             }
-        }	   
+        }
+	stage('Push to main') {
+           steps {
+              sh 'git push origin main'
+      	    }
+	}
         stage('Login') {
 
 		steps {
