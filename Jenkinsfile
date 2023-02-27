@@ -7,7 +7,7 @@ pipeline {
 	stage('Merge feature to main') {
                 steps {
                 sh 'git checkout main'
-                sh 'git merge feature'
+                sh 'git merge origin/feature'
                 sh 'git pull origin main'
                 sh 'git merge origin/feature'
                 sh 'git push origin main'
