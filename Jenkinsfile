@@ -11,11 +11,13 @@ pipeline {
               sh 'pip3 install -r requirements.txt'
             }
         }
-        stage('Testing') {
-            steps {
-              sh 'python3 test_app.py '
-            }
-        }  
+    stage('Testing') {
+	    steps {
+        	sh 'docker build -t myapp-test -f Dockerfile.test .'
+        	sh 'docker run --rm myapp-test python3 test_app.py'
+    	    }
+	}
+
         stage('Deploying'){
             steps {
               sh 'docker build -t jingtaoqu/jenkins:latest .'
