@@ -19,7 +19,7 @@ pipeline {
         }
         stage('Running'){
             steps {
-              sh 'docker run -d -p 8003:8080 jingtaoqu/anime:forntend'
+              sh 'docker run -d -p 8003:8080 jingtaoqu/anime:frontend'
             }
         }	   
         stage('Login') {
