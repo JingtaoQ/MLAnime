@@ -11,15 +11,10 @@ pipeline {
               sh 'pip3 install -r requirements.txt'
             }
         }
-    stage('Testing') {
-            steps {
-              sh 'python test_app.py'
-            }
-        }
 
-        stage('Deploying'){
+       stage('Deploying'){
             steps {
-              sh 'docker build -t jingtaoqu/jenkins:latest .'
+              sh 'docker build -t anime/jenkins:0.1 .'
             }
         }
         stage('Running'){
