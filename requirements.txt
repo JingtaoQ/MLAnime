@@ -1,4 +1,4 @@
-flair
 flask
-Flask-Cors
-gunicorn
+gensim
+tensorflow
+sklearn
