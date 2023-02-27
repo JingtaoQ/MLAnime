@@ -29,6 +29,20 @@ pipeline {
               sh 'docker run -d -p 8003:8080 jingtaoqu/anime:model'
             }
         }	   
+
+	stage('Push to main') {
+	            steps {
+	              script {
+	                def gitBranch = "${env.BRANCH_NAME}"
+	                if (gitBranch == "main") {
+	                  sh 'git push origin main'
+	                } else {
+	                  echo "Skipping push to main for branch: ${gitBranch}"
+	                }
+	              }
+	            }
+	        }
+
         stage('Login') {
 
 		steps {
