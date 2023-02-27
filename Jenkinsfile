@@ -7,7 +7,11 @@ pipeline {
                 checkout scm
             }
         }
-
+        stage('Building') {
+            steps {
+              sh 'pip3 install -r requirements.txt'
+            }
+        }
 
         stage('Merge to main') {
             when {
