@@ -4,15 +4,7 @@ pipeline {
         DOCKERHUB_CREDENTIALS = credentials('dockerhubpwd')
     }
   stages {
-	stage('Merge feature to main') {
-                steps {
-                sh 'git checkout main'
-                sh 'git merge origin/feature'
-                sh 'git pull origin main'
-                sh 'git merge origin/feature'
-                sh 'git push origin main'
-                }
-            }
+
   	stage('Login') {
 
 		steps {
