@@ -22,30 +22,18 @@ pipeline {
                 sh 'docker run -d -p 8003:8080 jingtaoqu/anime:frontend'
             }
         }
-
-        stage('Merge feature to main') {
-            steps {
-                sh 'git checkout feature'
-                sh 'git pull origin feature'
-                sh 'git checkout main'
-                sh 'git pull origin main'
-                sh 'git merge feature'
-                sh 'git push origin main'
-            }
-            post {
-                always {
-                    script {
-                        def currentBuildResult = currentBuild.result ?: 'SUCCESS'
-                        if (currentBuildResult == 'SUCCESS') {
-                            echo 'Feature branch merged into main branch successfully'
-                        } else {
-                            echo 'Feature branch merge failed'
-                        }
-                    }
-                }
-            }
-        }
-    }
+			stage('Push to main') {
+			            steps {
+			              script {
+			                def gitBranch = "${env.BRANCH_NAME}"
+			                if (gitBranch == "main") {
+			                  sh 'git push origin main'
+			                } else {
+			                  echo "Skipping push to main for branch: ${gitBranch}"
+			                }
+			              }
+			            }
+			        }
     
     post {
         always {
