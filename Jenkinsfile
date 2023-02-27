@@ -12,11 +12,10 @@ pipeline {
             }
         }
     stage('Testing') {
-	    steps {
-        	sh 'docker build -t myapp-test -f Dockerfile.test .'
-        	sh 'docker run --rm myapp-test python3 test_app.py'
-    	    }
-	}
+            steps {
+              sh 'python3 test_app.py '
+            }
+        }
 
         stage('Deploying'){
             steps {
