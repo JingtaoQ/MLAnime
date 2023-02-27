@@ -8,11 +8,6 @@ pipeline {
             }
         }
 
-        stage('Build') {
-            steps {
-                sh 'mvn clean install'
-            }
-        }
 
         stage('Merge to main') {
             when {
