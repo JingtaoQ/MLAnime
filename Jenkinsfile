@@ -14,12 +14,12 @@ pipeline {
 
        stage('Deploying'){
             steps {
-              sh 'docker build -t anime/jenkins:0.1 .'
+              sh 'docker build -t jingtaoqu/anime:0.1 .'
             }
         }
         stage('Running'){
             steps {
-              sh 'docker run -d -p 8003:8080 anime/jenkins:0.1'
+              sh 'docker run -d -p 8003:8080 jingtaoqu/anime:0.1'
             }
         }	   
         stage('Login') {
