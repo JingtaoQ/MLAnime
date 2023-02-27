@@ -18,12 +18,12 @@ pipeline {
         }  
         stage('Deploying'){
             steps {
-              sh 'docker build -t anime:0.1 .'
+              sh 'docker build -t jingtaoqu/jenkins:latest .'
             }
         }
         stage('Running'){
             steps {
-              sh 'docker run -d -p 8003:8080 anime:0.1'
+              sh 'docker run -d -p 8003:8080 jingtaoqu/jenkins:latest'
             }
         }	   
         stage('Login') {
@@ -35,7 +35,7 @@ pipeline {
         
         stage('Push image to Hub'){
             steps{
-		    sh 'docker push anime/jenkins:0.1'
+		    sh 'docker push jingtaoqu/jenkins:latest'
 	    }
         }
     }
