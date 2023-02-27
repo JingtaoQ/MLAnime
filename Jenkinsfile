@@ -9,7 +9,7 @@ pipeline {
         }
         stage('Building') {
             steps {
-              sh 'pip3 install -r requirements.txt'
+                sh 'pip3 install -r requirements.txt'
             }
         }
 
@@ -18,9 +18,10 @@ pipeline {
                 branch 'feature/*'
             }
             steps {
-                sh 'git checkout main'
-                sh 'git merge origin/${env.BRANCH_NAME}'
-                sh 'git push origin main'
+                sh 'git fetch --all --prune --tags'
+                sh "git checkout main"
+                sh "git merge origin/${env.BRANCH_NAME}"
+                sh "git push origin main"
             }
         }
     }
