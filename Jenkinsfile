@@ -21,7 +21,7 @@ pipeline {
       stage('Volumne'){
         steps {
               sh 'docker volume create model'
-              sh 'docker run -d --name=model --mount source=MLAnime/outputmodel.pkl,destination=/usr/share/nginx/model nginx:latest'
+              sh 'docker run -d --name=model --mount source=MLAnime,destination=/usr/share/nginx/model nginx:latest'
 				}
       }
         stage('Running'){
