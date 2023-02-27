@@ -1,7 +1,7 @@
 pipeline {
     agent any
     environment {
-        DOCKERHUB_CREDENTIALS = credentials('animepwd')
+        DOCKERHUB_CREDENTIALS = credentials('dockerhubpwd')
     }
 
 
@@ -19,7 +19,7 @@ pipeline {
         }
         stage('Running'){
             steps {
-              sh 'docker run -d -p 8003:8080 jingtaoqu/jenkins:latest'
+              sh 'docker run -d -p 8003:8080 anime/jenkins:0.1'
             }
         }	   
         stage('Login') {
@@ -31,7 +31,7 @@ pipeline {
         
         stage('Push image to Hub'){
             steps{
-		    sh 'docker push jingtaoqu/jenkins:latest'
+		    sh 'docker push anime/jenkins:0.1'
 	    }
         }
     }
